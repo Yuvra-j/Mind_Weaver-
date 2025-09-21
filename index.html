@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindWeaver Saga - AI Therapeutic Fantasy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'fantasy-blue': '#1e3a8a',
+                        'fantasy-dark': '#1e1b4b',
+                        'fantasy-gold': '#fbbf24',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 25%, #43e97b 50%, #38f9d7 75%, #ffecd2 100%);
+            background-size: 400% 400%;
+            animation: gradientFlow 20s ease infinite;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(79, 172, 254, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 183, 77, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(67, 233, 123, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 60% 60%, rgba(255, 235, 59, 0.4) 0%, transparent 50%);
+            animation: floatingOrbs 15s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.15) 50%, transparent 70%),
+                linear-gradient(-45deg, transparent 30%, rgba(255, 255, 255, 0.08) 50%, transparent 70%);
+            animation: shimmer 8s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes floatingOrbs {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.7;
+            }
+            33% { 
+                transform: translateY(-20px) rotate(120deg);
+                opacity: 0.9;
+            }
+            66% { 
+                transform: translateY(10px) rotate(240deg);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes shimmer {
+            0%, 100% { 
+                transform: translateX(-100%) translateY(-100%);
+                opacity: 0;
+            }
+            50% { 
+                transform: translateX(100%) translateY(100%);
+                opacity: 1;
+            }
+        }
+
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .story-text {
+            font-family: 'Georgia', serif;
+            line-height: 1.8;
+        }
+
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+
+        .message-slide-in {
+            animation: messageSlideIn 0.5s ease-out;
+        }
+
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-float {
+            animation: logoFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 40px rgba(251, 191, 36, 0.6);
+            }
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #fbbf24;
+            animation: typingPulse 1.4s ease-in-out infinite both;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        .typing-dot:nth-child(3) { animation-delay: 0s; }
+
+        @keyframes typingPulse {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(251, 191, 36, 0.5);
+            border-radius: 3px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(251, 191, 36, 0.7);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+            
+            .app-container aside {
+                width: 100%;
+                height: auto;
+                max-height: 200px;
+                border-radius: 0 0 20px 20px;
+                margin: 0;
+            }
+            
+            .app-container main {
+                margin: 0;
+                border-radius: 0;
+                height: calc(100vh - 200px);
+            }
+            
+            .chat-title {
+                font-size: 3rem;
+            }
+            
+            .chat-subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chat-title {
+                font-size: 2.5rem;
+            }
+            
+            .app-container aside {
+                max-height: 150px;
+            }
+            
+            .app-container main {
+                height: calc(100vh - 150px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container flex h-screen">
+        <!-- Left Sidebar - Recent Chats -->
+        <aside class="w-80 glassmorphism rounded-r-2xl flex flex-col overflow-hidden mx-2 my-2">
+            <div class="p-6 border-b border-white border-opacity-10">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-xl flex items-center justify-center logo-float pulse-glow">
+                        <svg class="w-7 h-7 text-black" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#000000;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#333333;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <circle cx="50" cy="25" r="6" fill="url(#logoGradient)" />
+                            <circle cx="30" cy="45" r="4" fill="url(#logoGradient)" />
+                            <circle cx="70" cy="45" r="4" fill="url(#logoGradient)" />
+                            <circle cx="40" cy="70" r="3" fill="url(#logoGradient)" />
+                            <circle cx="60" cy="70" r="3" fill="url(#logoGradient)" />
+                            <circle cx="50" cy="80" r="2" fill="url(#logoGradient)" />
+                            <line x1="50" y1="25" x2="30" y2="45" stroke="url(#logoGradient)" stroke-width="1.5" />
+                            <line x1="50" y1="25" x2="70" y2="45" stroke="url(#logoGradient)" stroke-width="1.5" />
+                            <line x1="30" y1="45" x2="40" y2="70" stroke="url(#logoGradient)" stroke-width="1.5" />
+                            <line x1="70" y1="45" x2="60" y2="70" stroke="url(#logoGradient)" stroke-width="1.5" />
+                            <line x1="40" y1="70" x2="50" y2="80" stroke="url(#logoGradient)" stroke-width="1.5" />
+                            <line x1="60" y1="70" x2="50" y2="80" stroke="url(#logoGradient)" stroke-width="1.5" />
+                        </svg>
+                    </div>
+                    <h1 class="text-2xl font-bold text-white">MindWeaver</h1>
+                </div>
+                
+                <div class="flex items-center gap-3 p-3 bg-yellow-400 bg-opacity-10 border border-yellow-400 border-opacity-30 rounded-lg cursor-pointer hover:bg-opacity-20 transition-all duration-200">
+                    <svg class="w-5 h-5 text-yellow-400" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    <span class="text-white font-medium">Ask</span>
+                </div>
+                
+                <div id="new-chat-btn" class="flex items-center gap-3 p-3 bg-blue-500 bg-opacity-10 border border-blue-500 border-opacity-30 rounded-lg cursor-pointer hover:bg-opacity-20 transition-all duration-200 mt-2">
+                    <svg class="w-5 h-5 text-blue-400" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                    </svg>
+                    <span class="text-white font-medium">New Chat</span>
+                </div>
+            </div>
+            
+            <div class="flex-1 p-6 overflow-y-auto custom-scrollbar">
+                <h2 class="text-sm font-semibold text-yellow-400 uppercase tracking-wider mb-4">Recent Chats</h2>
+                <div class="space-y-2">
+                    <div class="p-3 bg-yellow-400 bg-opacity-10 border border-yellow-400 border-opacity-30 rounded-lg cursor-pointer hover:bg-opacity-20 transition-all duration-200 border-l-4 border-l-yellow-400">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center">
+                                <span class="text-black font-bold text-sm">M</span>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-sm text-white">MindWeaver Saga: AI Emotions</h3>
+                                <p class="text-xs text-gray-300">Therapeutic fantasy narratives</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Interface -->
+        <main class="flex-1 glassmorphism rounded-2xl mx-2 my-2 flex flex-col relative">
+            <!-- Chat Header -->
+            <div class="flex items-center justify-between p-8 relative z-10">
+                <div class="flex items-center gap-6">
+                    <div class="w-20 h-20 bg-gradient-to-r from-white to-gray-100 rounded-2xl flex items-center justify-center logo-float shadow-2xl">
+                        <svg class="w-12 h-12" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="chatBrainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#4fc3f7;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#81c784;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <circle cx="50" cy="25" r="8" fill="url(#chatBrainGradient)" opacity="0.9">
+                                <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="25" cy="45" r="6" fill="url(#chatBrainGradient)" opacity="0.8">
+                                <animate attributeName="opacity" values="0.6;0.9;0.6" dur="2.5s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="75" cy="45" r="6" fill="url(#chatBrainGradient)" opacity="0.8">
+                                <animate attributeName="opacity" values="0.8;1;0.8" dur="2.8s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="35" cy="70" r="5" fill="url(#chatBrainGradient)" opacity="0.7">
+                                <animate attributeName="opacity" values="0.5;0.8;0.5" dur="3.2s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="65" cy="70" r="5" fill="url(#chatBrainGradient)" opacity="0.7">
+                                <animate attributeName="opacity" values="0.7;0.9;0.7" dur="2.7s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="50" cy="80" r="4" fill="url(#chatBrainGradient)" opacity="0.6">
+                                <animate attributeName="opacity" values="0.4;0.7;0.4" dur="3.5s" repeatCount="indefinite"/>
+                            </circle>
+                        </svg>
+                    </div>
+                    <div class="text-center">
+                        <h1 class="text-6xl font-light text-white mb-2 tracking-tight">MindWeaver</h1>
+                        <p class="text-2xl text-yellow-300 font-semibold mb-2 tracking-wide">Just tell me your mood!!!</p>
+                        <div class="w-24 h-1 bg-gradient-to-r from-yellow-400 to-yellow-600 mx-auto rounded-full"></div>
+                    </div>
+                </div>
+                
+                <!-- User Profile Section -->
+                <div class="flex items-center gap-4">
+                    <!-- Sign In Button (shown when not logged in) -->
+                    <div id="signin-section" class="hidden">
+                        <button id="google-signin-btn" class="flex items-center gap-3 px-6 py-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl hover:bg-opacity-20 transition-all duration-200">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24">
+                                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                            </svg>
+                            <span class="text-white font-medium">Sign in with Google</span>
+                        </button>
+                    </div>
+                    
+                    <!-- User Profile (shown when logged in) -->
+                    <div id="user-profile" class="hidden flex items-center gap-3">
+                        <div class="text-right">
+                            <p id="user-name" class="text-white font-medium text-sm"></p>
+                            <p id="user-email" class="text-gray-300 text-xs"></p>
+                        </div>
+                        <img id="user-avatar" class="w-12 h-12 rounded-full border-2 border-white border-opacity-20" src="" alt="Profile">
+                        <button id="signout-btn" class="px-4 py-2 bg-red-500 bg-opacity-20 border border-red-500 border-opacity-30 rounded-lg text-red-300 hover:bg-opacity-30 transition-all duration-200 text-sm">
+                            Sign Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat Container -->
+            <div class="flex-1 flex flex-col max-w-5xl mx-auto w-full px-6 relative z-10">
+                <!-- Messages Area -->
+                <div id="story-output" class="flex-1 bg-white bg-opacity-95 rounded-2xl p-8 mb-6 overflow-y-auto custom-scrollbar min-h-96">
+                    <div class="text-center text-gray-600 italic">
+                        <div class="flex items-center justify-center gap-2 mb-4">
+                            <div class="w-10 h-10 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center">
+                                <span class="text-black font-bold">MW</span>
+                            </div>
+                            <span class="text-lg font-medium">Welcome to MindWeaver Saga! 🌟</span>
+                        </div>
+                        <p class="mb-4">Share how you're feeling or what's on your mind, and I'll weave a therapeutic fantasy story just for you.</p>
+                        <div class="text-left max-w-md mx-auto">
+                            <p class="text-sm font-medium mb-2">Try saying things like:</p>
+                            <ul class="text-sm space-y-1 text-gray-500">
+                                <li>• "I feel anxious about work"</li>
+                                <li>• "I'm feeling lonely today"</li>
+                                <li>• "I want to explore a magical forest"</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Input Area -->
+                <div class="bg-white bg-opacity-95 rounded-2xl p-4 mb-6 shadow-xl">
+                    <div class="flex items-end gap-3">
+                        <div class="flex-1">
+                            <label for="user-input" class="block text-sm font-medium text-gray-700 mb-2">
+                                Share your emotions or story choices:
+                            </label>
+                            <textarea 
+                                id="user-input" 
+                                rows="3" 
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent resize-none"
+                                placeholder="Tell me how you're feeling or what adventure you'd like to explore..."
+                            ></textarea>
+                        </div>
+                        <button 
+                            id="submit-btn" 
+                            class="px-8 py-3 bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-semibold rounded-xl hover:from-yellow-500 hover:to-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 transition-all duration-200 transform hover:scale-105 shadow-lg"
+                        >
+                            Ask
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
